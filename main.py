@@ -1,4 +1,5 @@
 # file principale
+from time import sleep
 from src.models import Room, Map, Entity, Player
 from items.item import Item, Potion, Weapon
 
@@ -79,12 +80,51 @@ while True:
             print("-"*40)
 
     elif scelta == "2":
-        enemy_index = int(input("Quale nemico vuoi colpire? ").strip()) - 1
-        print(enemy_index)
-        current_room.hit_enemy(enemy_index, player.damage)
+        if curret_room_enemies_number:
+            enemy_index = int(input("Quale nemico vuoi colpire? ").strip()) - 1
+            print(enemy_index)
+            current_room.hit_enemy(enemy_index, player.damage)
+            if current_room.boss and not curret_room_enemies_number:
+                print("Il tesoro non ha più un guardiano, ora è tutto tuo")
+                sleep(1)
+                print("L'affatticamento dalla battaglia e le ferite riportate ti spingono")
+                sleep(1)
+                print("a riposarti, l'emozione del tesoro e l'adrenalina dell'ultima")
+                sleep(1)
+                print("battaglia, vogliono che continui...")
+                sleep(1)
+                print("Tutto un colpo non ti senti molto bene.. Collassi a terra e muori")
+                sleep(1)
+                print("...")
+                sleep(1)
+                print("...")
+                sleep(1)
+                print("...")
+                sleep(1)
+                print("FINE")
+                break
+        else:
+            print("-"*40)
+            print("Hai cercato di colpire il vuoto...")
+            print("Sei inciampato")
+            sleep(1)
+            print("Nessuno ha visto nulla!")
+            print("-"*40)
 
     elif scelta == "3":
-        pass
+        print("Cercando oggetti..")
+        current_room_objects_number = len(current_room.items)
+        if current_room_objects_number:
+            print(f"Ci sono {current_room_objects_number} oggetti")
+            for item_index, item in enumerate(current_room.items):
+                print(item_index+1, '-', item)
+            item_index = int(input("Quale vuoi raccogliere? "))-1
+            if item_index < current_room_objects_number:
+                item = current_room.items[item_index]
+                player.pick_up_item(item)
+                current_room.items.remove(item)
+        else:
+            print("La fortuna non sembra essere dalla tua parte! ")
 
     elif scelta == "4":
         pass
