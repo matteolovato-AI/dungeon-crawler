@@ -57,10 +57,11 @@ class Player(Entity):
         
     
 class Room:
-    def __init__(self, description) -> None:
+    def __init__(self, description, boss=False) -> None:
         self.description = description
         self.items: list[Item] = []
         self.enemies: list[Entity] = []
+        self.boss = boss
     def add_item(self, item: Item):
         self.items.append(item)
     def add_enemy(self, enemy: Entity):
@@ -75,7 +76,7 @@ class Map:
         pass
     def add_room(self, room: Room, room_position: tuple[int,int]) -> None:
         self.map[room_position] = room
-    def check_room_neighbor_direction(self, position, direction) -> tuple[int,int] | None:
+    def check_room_neighbor_direction(self, position, direction) -> bool:
 
         target_x, target_y = position[0], position[1]
         if direction == "nord":
@@ -87,13 +88,13 @@ class Map:
         elif direction == "ovest":
             target_x -= 1
         # ritorna la posizione della stanza adiacente
-        return (target_x, target_y) if (target_x, target_y) in self.map.keys() else None
+        return True if (target_x, target_y) in self.map.keys() else False
 
-def check_room_neighbors(self, position) -> list[tuple[int,int]]:
-        neighbors = []
-        for dir in ['nord', 'sud', 'est', 'ovest']:
-            dir_neighbor = self.check_room_neighbor_direction(position, dir)
-            if dir_neighbor:
-                neighbors.append(dir_neighbor)
+    def check_room_neighbors(self, position) -> list[tuple[int,int]]:
+            neighbors = []
+            for dir in ['nord', 'sud', 'est', 'ovest']:
+                is_neighbor = self.check_room_neighbor_direction(position, dir)
+                if is_neighbor:
+                    neighbors.append(dir)
 
-        return neighbors
+            return neighbors
