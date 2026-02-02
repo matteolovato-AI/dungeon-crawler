@@ -1,4 +1,6 @@
 # classi
+from ..items.item import Item
+
 class Entity:
     def __init__(self, name: str, health: str,damage:int=0):
         self.name = name
@@ -24,11 +26,14 @@ class Player(Entity):
 class Room:
     def __init__(self, description) -> None:
         self.description = description
-        self.items = []
-        self.enemies = []
-    def add_item(self, item):
-        
-        pass
+        self.items: list[Item] = []
+        self.enemies: list[Entity] = []
+    def add_item(self, item: Item):
+        self.items.append(item)
+    def add_enemy(self, enemy: Entity):
+        self.enemies.append(enemy)
+    def __str__(self) -> str:
+        return self.description
 
 class Map:
     def __init__(self, room: Room) -> None:
