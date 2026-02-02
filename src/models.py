@@ -84,7 +84,7 @@ class Map:
         elif direction == "ovest":
             target_x -= 1
         # ritorna la posizione della stanza adiacente
-        return (target_x, target_y) if (target_x >= 0 and target_y >= 0) else None
+        return (target_x, target_y) if (target_x, target_y) in self.map.keys() else None
 
 def check_room_neighbors(self, position) -> list[tuple[int,int]]:
         neighbors = []
