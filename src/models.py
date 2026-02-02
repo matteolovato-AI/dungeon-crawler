@@ -1,4 +1,5 @@
 # classi
+from os import remove
 from items.item import Item,Potion,Weapon
 
 class Entity:
@@ -13,6 +14,8 @@ class Entity:
          if(self.health<0):
              self.health=0
          return self.health
+    def __str__(self) -> str:
+        return f"{self.name} ha {self.health} HP"
 
 class Player(Entity):
     def __init__(self, name: str, health: int, position:tuple[int,int]):
@@ -66,6 +69,11 @@ class Room:
         self.items.append(item)
     def add_enemy(self, enemy: Entity):
         self.enemies.append(enemy)
+    def hit_enemy(self, enemy_index, damage):
+        enemy = self.enemies[enemy_index]
+        if enemy.health_amount(damage) == 0:
+            self.enemies.remove(enemy)
+    
     def __str__(self) -> str:
         return self.description
 
