@@ -42,7 +42,22 @@ while True:
     scelta = input("Choose 1-5: ").strip()
 
     if scelta == "1":
-        pass
+        direzione = input("What direction ([n]orth, [s]outh, [e]ast, [w]est)? ").strip().lower()
+        
+        if direzione[0] == "n":
+            pass
+
+        elif direzione[0] == "s":
+            pass
+
+        elif direzione[0] == "e":
+            pass
+
+        elif direzione[0] == "w":
+            pass
+
+        else:
+            print("ERROR: Invalid direction")
 
     elif scelta == "2":
         pass
