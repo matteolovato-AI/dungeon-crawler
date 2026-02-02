@@ -18,6 +18,13 @@ class Player(Entity):
     def __init__(self, name: str, health: str, position:tuple[int,int]):
         super().__init__(name, health,damage=1)
         self.position = position
+    
+    def move(self, new_position: tuple[int, int]):
+        self.position = new_position
+    
+    def collect_item(self, item: Item):
+        self.inventory.append(item)
+        print(f"{item} collected!")
 
         
    
