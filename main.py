@@ -3,7 +3,7 @@ from time import sleep
 from src.models import Room, Map, Entity, Player
 from items.item import Item, Potion, Weapon
 
-player = Player("Giocaore", 100,(0,0))
+player = Player("Giocatore", 100,(0,0))
 
 initial_room = Room("Un atrio circolare con pareti di pietra levigata.")
 livello = Map(initial_room)
@@ -32,7 +32,7 @@ spider = Entity("Ragno delle grotte", health=4, damage=5)
 room_6.add_enemy(spider)
 sword = Weapon("Spada corta", 8)
 room_6.add_item(sword)
-livello.add_room(room_5, (-1,-1))
+livello.add_room(room_6, (-1,-1))
 room_7 = Room("Una cella d'isolamento con catene che pendono dal soffitto.")
 shadow = Entity("Ombra corrotta", health=4, damage=10)
 room_7.add_enemy(shadow)
@@ -53,6 +53,8 @@ livello.add_room(room_10, (0,-4))
 
 
 while True:
+    print("")
+    print(player)
     neighbors = livello.check_room_neighbors(player.position)
     current_room = livello.map[player.position]
     print(current_room)
@@ -65,7 +67,7 @@ while True:
         print(index+1, '-', enemy)
     
 
-    print("\n\n\nWhat do you want to do?")
+    print("\n\nWhat do you want to do?")
     print("1 - Move\n2 - Attack\n3 - Loot item\n4 - Wield item\n5 - Use item")
     scelta = input("Choose 1-5: ").strip()
 
@@ -92,6 +94,9 @@ while True:
     elif scelta == "2":
         if curret_room_enemies_number:
             # ci sono nemici nella stanza
+            print("\nCi sono nemici nella stanza")
+            for enemy_index, enemy in enumerate(current_room.enemies):
+                print(enemy_index+1, "-", enemy)
             enemy_index = int(input("Quale nemico vuoi colpire? ").strip()) - 1
             # colpisce il nemico e lo rimuove dalla lista se muore
             current_room.hit_enemy(enemy_index, player.damage)
@@ -142,13 +147,13 @@ while True:
             print("La fortuna non sembra essere dalla tua parte! ")
 
     elif scelta == "4":
-        at_leat_one = False
+        at_least_one = False
         print("-"*40)
         for index, item in enumerate(player.inventory):
             if type(item) is Weapon:
-                at_leat_one = True
+                at_least_one = True
                 print(index+1, '-', item)
-        if at_leat_one:
+        if at_least_one:
             weapon_index = int(input("Quale arma vuoi equipaggiare? "))-1
             if weapon_index in range(0, len(player.inventory)) and type(player.inventory[weapon_index]) is Weapon:
                 player.equip_weapon(player.inventory[weapon_index])
@@ -157,13 +162,13 @@ while True:
         print("-"*40)
 
     elif scelta == "5":
-        at_leat_one = False
+        at_least_one = False
         print("-"*40)
         for index, item in enumerate(player.inventory):
             if type(item) is Potion:
-                at_leat_one = True
+                at_least_one = True
                 print(index+1, '-', item)
-        if at_leat_one:
+        if at_least_one:
             potion_index = int(input("Quale pozione vuoi usare? "))-1
             if potion_index in range(0, len(player.inventory)) and type(player.inventory[potion_index]) is Potion:
                 player.use_potion(player.inventory[potion_index])
