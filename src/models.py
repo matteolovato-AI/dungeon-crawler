@@ -2,20 +2,20 @@
 from items.item import Item,Potion,Weapon
 
 class Entity:
-    def __init__(self, name: str, health: str,damage:int=0):
+    def __init__(self, name: str, health: int,damage:int=0):
         self.name = name
         self.health = health
         self.damage=damage
     
     def health_amount(self, damage: int) -> int:
-         self.health = int(self.health) - damage
+         self.health = (self.health) - damage
          
          if(self.health<0):
              self.health=0
          return self.health
 
 class Player(Entity):
-    def __init__(self, name: str, health: str, position:tuple[int,int]):
+    def __init__(self, name: str, health: int, position:tuple[int,int]):
         super().__init__(name, health,damage=1)
         self.position = position
         self.inventory = []
@@ -38,11 +38,14 @@ class Player(Entity):
     
     def use_potion(self, potion: Potion):
         if potion in self.inventory:
-            current_hp = int(self.health)
+            current_hp =(self.health)
             
-            self.health = str(current_hp + potion.healing_amount)
+            self.health = (current_hp + potion.healing_amount)
         
             self.inventory.remove(potion)
+
+            if self.health > 100:
+                self.health = 100
             print(f"Hai usato {potion.name}. HP attuali: {self.health}")
 
         
