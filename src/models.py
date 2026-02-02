@@ -14,7 +14,7 @@ class Entity:
 
 class Player(Entity):
     def __init__(self, name: str, health: str, position:tuple[int,int]):
-        super().__init__(name, health)
+        super().__init__(name, health,damage=1)
         self.position = position
 
         
