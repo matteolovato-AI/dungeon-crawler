@@ -1,5 +1,5 @@
 # classi
-from items.item import Item
+from items.item import Item,Potion,Weapon
 
 class Entity:
     def __init__(self, name: str, health: str,damage:int=0):
@@ -36,7 +36,14 @@ class Player(Entity):
         else:
             print("Non hai quest'arma nell'inventario!")
     
-    def get_potion(self potion: Potion):
+    def use_potion(self, potion: Potion):
+        if potion in self.inventory:
+            current_hp = int(self.health)
+            
+            self.health = str(current_hp + potion.healing_amount)
+        
+            self.inventory.remove(potion)
+            print(f"Hai usato {potion.name}. HP attuali: {self.health}")
 
         
         
@@ -77,9 +84,9 @@ class Map:
         elif direction == "ovest":
             target_x -= 1
         # ritorna la posizione della stanza adiacente
-        return (target_x, target_y) if (target_x, target_y) in self.map.keys() else None
+        return (target_x, target_y) if (target_x >= 0 and target_y >= 0) else None
 
-    def check_room_neighbors(self, position) -> list[tuple[int,int]]:
+def check_room_neighbors(self, position) -> list[tuple[int,int]]:
         neighbors = []
         for dir in ['nord', 'sud', 'est', 'ovest']:
             dir_neighbor = self.check_room_neighbor_direction(position, dir)
