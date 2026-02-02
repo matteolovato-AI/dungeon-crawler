@@ -1,5 +1,5 @@
 # classi
-from ..items.item import Item
+from items.item import Item
 
 class Entity:
     def __init__(self, name: str, health: str,damage:int=0):
