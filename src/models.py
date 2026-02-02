@@ -18,13 +18,29 @@ class Player(Entity):
     def __init__(self, name: str, health: str, position:tuple[int,int]):
         super().__init__(name, health,damage=1)
         self.position = position
+        self.inventory = []
+        self.equipped_weapon = None
     
     def move(self, new_position: tuple[int, int]):
         self.position = new_position
     
-    def collect_item(self, item: Item):
+    def pick_up_item(self, item: Item):
         self.inventory.append(item)
-        print(f"{item} collected!")
+        print(f"Hai messo {item.name} nell'inventario.")
+
+    def equip_weapon(self, weapon: Weapon):
+        if weapon in self.inventory:
+            self.equipped_weapon = weapon
+            self.damage = weapon.damage
+            print(f"Hai impugnato {weapon.name}. Danno: {self.damage}")
+        else:
+            print("Non hai quest'arma nell'inventario!")
+    
+    def get_potion(self potion: Potion):
+
+        
+        
+
 
         
    
