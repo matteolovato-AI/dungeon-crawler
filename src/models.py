@@ -29,15 +29,15 @@ class Player(Entity):
     
     def pick_up_item(self, item: Item):
         self.inventory.append(item)
-        print(f"You put {item.name} in your inventory.")
+        print(f"Hai {item.name} nel tuo inventario.")
 
     def equip_weapon(self, weapon: Weapon):
         if weapon in self.inventory:
             self.equipped_weapon = weapon
             self.damage = weapon.damage
-            print(f"You have equipped {weapon.name}. Damage: {self.damage}")
+            print(f"Stai impugnando {weapon.name}. Danno: {self.damage}")
         else:
-            print("You don't have this weapon in your inventory!")
+            print("Non hai quest'arma nel tuo inventario!")
     
     def use_potion(self, potion: Potion):
         if potion in self.inventory:
@@ -49,7 +49,10 @@ class Player(Entity):
 
             if self.health > 100:
                 self.health = 100
-            print(f"You have used {potion.name}. Current HP: {self.health}")
+            print(f"Hai usato {potion.name}. HP: {self.health}")
+    
+    def __str__(self):
+        return f"{self.name} ha {self.health} HP e sta usando {self.equipped_weapon}"
 
         
         

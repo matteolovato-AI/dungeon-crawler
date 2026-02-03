@@ -4,13 +4,19 @@ from src.models import Room, Map, Entity, Player
 from items.item import Item, Potion, Weapon
 
 player = Player("Giocatore", 100,(0,0))
+pugni = Weapon("Pugni", 1)
+player.pick_up_item(pugni)
+player.equip_weapon(pugni)
 
+# stanza iniziale
 initial_room = Room("Un atrio circolare con pareti di pietra levigata.")
 livello = Map(initial_room)
+# seconda stanza
 room_2 = Room("Una biblioteca con scaffali rovesciati e pergamene ingiallite.")
 dagger = Weapon("Daga rugginosa", 3)
 room_2.add_item(dagger)
 livello.add_room(room_2,(-1,0))
+# terza stanza
 room_3 = Room("Un balcone naturale che si affaccia su un vuoto oscuro.")
 potion = Potion("Pozione di cura", 10)
 room_3.add_item(potion)
@@ -19,35 +25,43 @@ giant_mouse2 = Entity("Topo gigante", health=3, damage=1)
 room_3.add_enemy(giant_mouse)
 room_3.add_enemy(giant_mouse2)
 livello.add_room(room_3, (1, 0))
+# quarta stanza
 room_4 = Room("Un corridoio stretto dove l'aria diventa pesante e fredda.")
 skeleton = Entity("Scheletro errante", health=5, damage=3)
 room_4.add_enemy(skeleton)
 livello.add_room(room_4, (0, 1))
+# quinta stanza
 room_5 = Room("Una stanza con un tavolo da alchimista distrutto.")
 potion1 = Potion("Pozione di cura", 10)
 room_5.add_item(potion1)
 livello.add_room(room_5, (2, 0))
+# sesta stanza
 room_6 = Room("Un'armeria abbandonata. Odore di ferro e polvere.")
 spider = Entity("Ragno delle grotte", health=4, damage=5)
 room_6.add_enemy(spider)
 sword = Weapon("Spada corta", 8)
 room_6.add_item(sword)
 livello.add_room(room_6, (-1,-1))
+# settima stanza
 room_7 = Room("Una cella d'isolamento con catene che pendono dal soffitto.")
-shadow = Entity("Ombra corrotta", health=4, damage=10)
+shadow = Entity("Ombra corrotta", health=4, damage=8)
 room_7.add_enemy(shadow)
 potion2 = Potion("Pozione di cura", 10)
 room_7.add_item(potion2)
 livello.add_room(room_7, (-1,-2))
+# ottava stanza
 room_8 = Room("Una stanza gelida, le pareti sono coperte da un sottile strato di ghiaccio.")
 livello.add_room(room_8, (-1,-3))
+# nona stanza
 room_9 = Room("L'anticamera del Boss, disseminata di scudi spezzati.")
 guard = Entity("Guardia scelta", health=20, damage=5)
+room_9.add_enemy(guard)
 big_potion = Potion("Pozione grande", 50)
 room_9.add_item(big_potion)
 livello.add_room(room_9, (-1,-4))
+# stanza del boss
 room_10 = Room("La sala del trono. Il soffitto è altissimo e l'atmosfera è elettrica.", boss=True)
-boss = Entity("Il signore delle Ossa", health=40, damage=8)
+boss = Entity("Il signore delle Ossa", health=40, damage=15)
 room_10.add_enemy(boss)
 livello.add_room(room_10, (0,-4))
 
@@ -67,8 +81,8 @@ while True:
         print(index+1, '-', enemy)
     
 
-    print("\n\nWhat do you want to do?")
-    print("1 - Move\n2 - Attack\n3 - Loot item\n4 - Wield item\n5 - Use item")
+    print("\n\nCosa vuoi fare?")
+    print("1 - Spostati\n2 - Attacca\n3 - Cerca oggetto\n4 - Impugna oggetto\n5 - Usa oggetto")
     scelta = input("Choose 1-5: ").strip()
 
     if scelta == "1":
@@ -98,11 +112,19 @@ while True:
             for enemy_index, enemy in enumerate(current_room.enemies):
                 print(enemy_index+1, "-", enemy)
             enemy_index = int(input("Quale nemico vuoi colpire? ").strip()) - 1
+            # al player vengono fatti danni
+            for enemy in current_room.enemies:
+                player.health-=enemy.damage
             # colpisce il nemico e lo rimuove dalla lista se muore
             current_room.hit_enemy(enemy_index, player.damage)
             # se muore il nemico viene rimosso, ricalcolo il numero di nemiri nella stanza
             curret_room_enemies_number = len(current_room.enemies)
+            
+            
             if current_room.boss and not curret_room_enemies_number:
+                print(player)
+                print("-"*40)
+                sleep(1)
                 print("Il tesoro non ha più un guardiano, ora è tutto tuo")
                 sleep(1)
                 print("L'affatticamento dalla battaglia e le ferite riportate ti spingono")
@@ -172,6 +194,9 @@ while True:
             potion_index = int(input("Quale pozione vuoi usare? "))-1
             if potion_index in range(0, len(player.inventory)) and type(player.inventory[potion_index]) is Potion:
                 player.use_potion(player.inventory[potion_index])
+                 # al player vengono fatti danni
+                for enemy in current_room.enemies:
+                    player.health-=enemy.damage
         else:
             print("Non hai pozioni...")
         print("-"*40)
